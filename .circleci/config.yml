@@ -24,12 +24,9 @@ jobs:
             ssh -o StrictHostKeyChecking=no $SSH_PANERA_USERNAME@$SSH_PANERA_HOST 'bash -s' < bash/deploy.sh
 
 workflows:
-  version: 2
-
   scheduled-deploy:
     triggers:
       - schedule:
-          # Toutes les 5 minutes
           cron: "0,5,10,15,20,25,30,35,40,45,50,55 * * * *"
           filters:
             branches:
@@ -42,6 +39,8 @@ workflows:
             - build
 
   push-deploy:
+    triggers:
+      - push
     jobs:
       - build
       - deploy:
