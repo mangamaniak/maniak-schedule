@@ -28,4 +28,11 @@ workflows:
               only:
                 - main
     jobs:
-      - deploy
+      - deploy:
+          filters:
+            branches:
+              only:
+                - main
+            pull_requests:
+              only:
+                - main
