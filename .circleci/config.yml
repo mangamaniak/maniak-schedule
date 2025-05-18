@@ -22,7 +22,7 @@ workflows:
   jujutsu_kaisen:
     triggers:
       - schedule:
-          cron: "*/20 * * * *"
+          cron: "0/5 * * * *"
           filters:
             branches:
               only:
