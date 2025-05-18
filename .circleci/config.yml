@@ -1,5 +1,10 @@
 version: 2.1
 
+parameters:
+  deploy_branch:
+    type: string
+    default: "main"
+
 jobs:
   deploy:
     docker:
