@@ -7,17 +7,19 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install SSH client
-          command: sudo apt-get update && sudo apt-get install -y openssh-client
+          name: Install SSH client and sshpass
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y openssh-client sshpass
       - run:
           name: Execute remote SSH command
           command: |
             sshpass -p "$SSH_PANERA_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_PANERA_USERNAME@$SSH_PANERA_HOST \
-            "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=dr-stone --stop-at=232"
+            "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=jujutsu-kaisen --stop-at=129"
 
 workflows:
   version: 2
-  dr_stone:
+  jujutsu_kaisen:
     triggers:
       - schedule:
           cron: "*/20 * * * *"
@@ -25,6 +27,5 @@ workflows:
             branches:
               only:
                 - main
-      - manual: {}
     jobs:
       - deploy
