@@ -1,0 +1,36 @@
+version: 2.1
+
+parameters:
+  deploy_branch:
+    type: string
+    default: "main"
+
+jobs:
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Install SSH client and sshpass
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y openssh-client sshpass
+      - run:
+          name: Execute remote SSH command
+          command: |
+            sshpass -p "$SSH_PANERA_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_PANERA_USERNAME@$SSH_PANERA_HOST \
+            "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=jujutsu-kaisen --stop-at=129"
+
+workflows:
+  version: 2
+  jujutsu_kaisen:
+    triggers:
+      - schedule:
+          cron: "0,5,10,15,20,25,30,35,40,45,50,55 * * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - deploy
