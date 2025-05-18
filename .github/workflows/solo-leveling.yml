@@ -2,7 +2,7 @@ name: Solo leveling
 
 on:
   schedule:
-    - cron: "*/8 * * * *"
+    - cron: "*/12 * * * *"
   workflow_dispatch:
 
 jobs:
