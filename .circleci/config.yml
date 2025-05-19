@@ -12,14 +12,21 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install SSH client and sshpass
+          name: Install SSH client
           command: |
             sudo apt-get update
-            sudo apt-get install -y openssh-client sshpass
+            sudo apt-get install -y openssh-client
+      - run:
+          name: Add SSH key
+          command: |
+            mkdir -p ~/.ssh
+            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -H $SSH_PANERA_HOST >> ~/.ssh/known_hosts
       - run:
           name: Execute remote SSH command
           command: |
-            sshpass -p "$SSH_PANERA_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_PANERA_USERNAME@$SSH_PANERA_HOST \
+            ssh $SSH_PANERA_USERNAME@$SSH_PANERA_HOST \
             "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=dr-stone --stop-at=232"
 
 workflows:
@@ -27,7 +34,7 @@ workflows:
   dr_stone:
     triggers:
       - schedule:
-          cron: "0,5,10,15,20,25,30,35,40,45,50,55 * * * *"
+          cron: "*/5 * * * *"
           filters:
             branches:
               only:
