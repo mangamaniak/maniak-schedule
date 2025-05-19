@@ -1,8 +1,8 @@
 name: Jujutsu kaisen
 
 on:
-  schedule:
-    - cron: "*/20 * * * *"
+  # schedule:
+  #   - cron: "*/20 * * * *"
   workflow_dispatch:
 
 jobs:
