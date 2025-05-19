@@ -1,36 +1,36 @@
-version: 2.1
+# version: 2.1
 
-parameters:
-  deploy_branch:
-    type: string
-    default: "main"
+# parameters:
+#   deploy_branch:
+#     type: string
+#     default: "main"
 
-jobs:
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run:
-          name: Install SSH client
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y openssh-client
-      - run:
-          name: Run remote SSH command
-          command: |
-            ssh -o StrictHostKeyChecking=no $SSH_PANERA_USERNAME@$SSH_PANERA_HOST \
-            "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=dr-stone --stop-at=232"
+# jobs:
+#   deploy:
+#     docker:
+#       - image: cimg/base:stable
+#     steps:
+#       - checkout
+#       - run:
+#           name: Install SSH client
+#           command: |
+#             sudo apt-get update
+#             sudo apt-get install -y openssh-client
+#       - run:
+#           name: Run remote SSH command
+#           command: |
+#             ssh -o StrictHostKeyChecking=no $SSH_PANERA_USERNAME@$SSH_PANERA_HOST \
+#             "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=dr-stone --stop-at=232"
 
-workflows:
-  version: 2
-  dr_stone:
-    triggers:
-      - schedule:
-          cron: "0,5,10,15,20,25,30,35,40,45,50,55 * * * *"
-          filters:
-            branches:
-              only:
-                - main
-    jobs:
-      - deploy
+# workflows:
+#   version: 2
+#   dr_stone:
+#     triggers:
+#       - schedule:
+#           cron: "0,5,10,15,20,25,30,35,40,45,50,55 * * * *"
+#           filters:
+#             branches:
+#               only:
+#                 - main
+#     jobs:
+#       - deploy
