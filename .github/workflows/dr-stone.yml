@@ -1,8 +1,8 @@
-name: Dr. Stone
+name: Demon Slayer
 
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "*/12 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -19,4 +19,4 @@ jobs:
           host: ${{ secrets.SSH_PANERA_HOST }}
           username: ${{ secrets.SSH_PANERA_USERNAME }}
           password: ${{ secrets.SSH_PANERA_PASSWORD }}
-          script: "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=dr-stone --stop-at=232"
+          script: "cd /home/paneramg/domains/mangazone.panera.mg/public_html && php artisan scraper:run --slug=kimetsu-no-yaiba --stop-at=179"
